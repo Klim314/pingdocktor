@@ -1,0 +1,41 @@
+.visitor-panels {
+	background-color: "#000000";
+	min-width: 40%;
+	max-width: 40%;
+	height: 100vh;
+	overflow-y: auto;
+	border-right: 1px solid #ccc;
+}
+
+.visitor-panel {
+	height: 12em;
+	margin: 0.3em;
+}
+
+.panel-text {
+	overflow-y: auto;
+	height: 7em;
+	border: 1px solid #ccc;
+	margin: 1em;
+}
+
+.description-text {
+	overflow-y: auto;
+	height: 25em;
+	border: 1px solid #ccc;
+	margin: 1em;
+}
+
+.panel-glyph {
+	font-size: 50px;
+}
+
+.sidebar-header {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.align-center {
+	height: 12em;
+	margin-top: 3em;
+}
