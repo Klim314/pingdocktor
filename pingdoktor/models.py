@@ -14,6 +14,7 @@ class Visitor(models.Model):
     """
     arrival_time = models.DateTimeField()
     acknowledged = models.BooleanField(default=False, db_index=True)
+    acknowledged_time = models.DateTimeField(null=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     description = models.TextField()
