@@ -18,12 +18,13 @@
         <h3>Currently waiting</h3>
       </div>
       <hr>
-
-      <ul class="list-group row m-1" id="visitor_list">
-        {% for visitor in current_visitors %}
-        <li class="list-group-item col-xs-6 visitor_entry" id="{{visitor.id}}">{{visitor.first_name | title}} {{visitor.last_name | title}}</li>
-        {% endfor %}
-      </ul>
+      <div id="visitor_list_holder">
+        <ul class="list-group row m-1 scroll-list" id="visitor_list">
+          {% for visitor in current_visitors %}
+          <li class="list-group-item col-xs-6 visitor_entry" id="{{visitor.id}}">{{visitor.first_name | title}} {{visitor.last_name | title}}</li>
+          {% endfor %}
+        </ul>
+      </div>
    </div>
    <div class="col-sm"> 
     <div class="subheader my-3">

@@ -16,3 +16,29 @@
 	color: red;
 	display: none;
 }
+
+#visitor_list_holder {
+	/*display: flex;*/
+	height: 32em;
+	max-height: 32em;
+	width:100%;
+	overflow: scroll;
+	overflow-x: hidden;
+    /*columns:2;*/
+}
+
+li{
+	float: left;
+	display: inline;
+	width: 49%;
+}
+
+.scroll-list {
+	/*height: 100%;*/
+	/*max-width:100%;*/
+	display:inline;
+}
+
+/*li:nth-child(even) {
+    /*background-color: #D3D3D3;*/
+  }*/

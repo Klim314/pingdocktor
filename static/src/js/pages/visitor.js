@@ -24,7 +24,7 @@ $.ajaxSetup({
 });
 
 const add_visitor = (visitor_data) => {
-  // Adds a visitor to the current visitor list
+  // Appends a visitor to the current visitor list
   // 
   // 
   let id = visitor_data.id
