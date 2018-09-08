@@ -1,17 +1,55 @@
 {% extends "pingdoktor/base.html" %}
+{% load static %}
+
+{% block head %}
+<link href="{% static "src/css/custom.css" %}" rel="stylesheet"></link>
+{% endblock %}
 
 {% block body %}
 <div class="container">
-  <div class="row">
-   {# Left column containing #}
-   <div class="col-sm"> 
+  <div class="text-center" id="header_box"> 
+      <h1>Current patient</h1s>
+      <h1 id="current_patient">1234345</h1>
    </div>
+  <div class="row">
    <!-- right column containing the visitor list-->
+   <div class="col-sm">
+      <div class="subheader my-3">
+        <h3>Currently waiting</h3>
+      </div>
+      <hr>
+
+      <ul class="list-group row m-1" id="visitor_list">
+        {% for visitor in current_visitors %}
+        <li class="list-group-item col-xs-6 visitor_entry" id="{{visitor.id}}">{{visitor.first_name | title}} {{visitor.last_name | title}}</li>
+        {% endfor %}
+      </ul>
+   </div>
    <div class="col-sm"> 
-    <!--Header with the current patient-->
-    <div class="text-center">1234</div>
-    <!--Header with the registered patient-->
-    <div></div>
+    <div class="subheader my-3">
+      <h3> Registration </h3>
+    </div>
+    <hr>
+    <form class="registration-form" id="registration-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" id="first_name" placeholder="John">
+        <label class="error" for="first_name" id="first_name_error">This field is required</label>
+      </div>
+      <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" id="last_name" placeholder="Doe">
+        <label class="error" for="first_name" id="last_name_error">This field is required</label>
+      </div>
+      <div class="form-group">
+        <label for="description">Description of condition</label>
+        <textarea class="form-control" id="description", rows=5></textarea>
+        <label class="error" for="first_name" id="description_name_error">This field is required</label>
+      </div>
+      <button type="submit" class="btn">Submit</button>
+      
+    </form>
    </div>
   </div>
   
@@ -19,4 +57,9 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+  var visitor_url = "{% url "visitor" %}";
+  var listen_ws_url = "ws://" + window.location.host + "/ws/pingdoktor/";
+</script>
+<script src="{% static "src/js/pages/visitor.js" %}"></script>
 {% endblock %}
