@@ -13,6 +13,9 @@ def add_visitor(first_name,
     @returns
         Visitor Model object for the added visitor
     """
+    # proper capitalization of names. For consistency, we'll keep them all Upper + lower
+    first_name = first_name[0].upper() + first_name[1:].lower()
+    last_name = last_name[0].upper() + last_name[1:].lower()
     visitor = Visitor.objects.create(arrival_time=datetime.now(),
                                      first_name=first_name,
                                      last_name=last_name,
