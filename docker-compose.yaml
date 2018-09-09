@@ -1,0 +1,27 @@
+version: '3'
+services:
+    docketerapp:
+        build: ./docktorapp
+        image: docktorapp
+        container_name: "docktorapp"
+        ports: 
+            - 8000:8000
+        environment:
+            - FOO=bar
+        volumes:
+            - ${HOME}/Dev/code/gtt/ingestproto/:/code/test/:rw
+            - ${HOME}/Dev/code/gtt/logs/:/code/logs/:rw
+            - ${HOME}/Dev/code/gtt/data/:/data/:rw
+        depends_on:
+            - redis
+        command: python manage.py runserver 0.0.0.0:8000
+
+    redis:
+        # https://github.com/bitnami/bitnami-docker-postgresql
+        restart: always
+        image: 'redis:4'
+        container_name: "redis"
+        ports:
+            - "6379:6379"
+        volumes:
+            - ${HOME}/Dev/data/redis:/redis
