@@ -70,14 +70,14 @@
           <hr>
           <div class="mt-1">
             <div class="clearfix">
-            <h3 class="mt-2 float-left">Name: <small id="focus-first-name">John</small> <small id="focus-last-name">Smith</small></h3>
-            <h3 class="mt-2 float-right">Registration Time: <small id="focus-datetime">24:00 June 24</small></h3>
+            <h3 class="mt-2 float-left">Name: <small id="focus-first-name"></small> <small id="focus-last-name"></small></h3>
+            <h3 class="mt-2 float-right">Registration Time: <small id="focus-datetime"></small></h3>
           </div>
-          <h4>ID: <small id="focus-patient-id">123456</small></h3>    
+          <h4>ID: <small id="focus-patient-id"></small></h3>    
           </div>
           <div class="mt-2">
             <h4>Patient Description</h4>
-            <div class="description-text p-1 m-0" id="focus-description">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+            <div class="description-text p-1 m-0" id="focus-description">
             </div> 
         </div>
         </div>
@@ -93,12 +93,9 @@
 {% block scripts %}
 <script src="{% static "src/js/jquery-ui.js" %}"></script>
 <script>
- $(function(){
-  $("#visitor-panel-list").sortable();
-  $("#visitor-panel-list").disableSelection();
- });
- // Constants
+ // Constants requiring django template engine
  var doctor_url = "{% url "doctor" %}";
+ var acknowledge_patient_url = "{% url "update" %}";
 </script>
 <script src="{% static "src/js/pages/doctor.js" %}"></script>
 {% endblock %}

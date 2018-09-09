@@ -23,7 +23,15 @@ def add_visitor(first_name,
     return visitor
 
 
-def ready_visitor(visitor):
-    """Pings the doctor
+def acknowledge_visitor(visitor):
+    """Updates the visitor object to show that the visitor has been seen by the doctor
     """
-    pass
+    visitor.acknowledged = True
+    visitor.acknowledged_time = datetime.now()
+    visitor.save()
+
+
+def get_current_visitors():
+    """Returns all visitors that have been registered but not seen
+    """
+    return Visitor.objects.filter(acknowledged=False).order_by("arrival_time")
