@@ -126,3 +126,14 @@ STATIC_URL = '/static/'
 # ASGI settings
 
 ASGI_APPLICATION = 'docktorapp.routing.application'
+
+# Channel layers
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}

@@ -60,7 +60,6 @@
 {% block scripts %}
 <script>
   var visitor_url = "{% url "visitor" %}";
-  var listen_ws_url = "ws://" + window.location.host + "/ws/pingdoktor/";
 </script>
 <script src="{% static "src/js/pages/visitor.js" %}"></script>
 {% endblock %}

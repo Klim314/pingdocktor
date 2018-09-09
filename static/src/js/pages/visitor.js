@@ -1,4 +1,5 @@
 // Handle CSRF setup for ajax posts
+// Taken XXX from since it's boilerplate
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
          function getCookie(name) {
@@ -25,18 +26,17 @@ $.ajaxSetup({
 
 const add_visitor = (visitor_data) => {
   // Appends a visitor to the current visitor list
-  // 
-  // 
+  // visitor data must contain id, first_name and last_name variables
+
   let id = visitor_data.id
   let first_name = visitor_data.first_name
   let last_name = visitor_data.last_name
-  // Add the visitor
+  // Append the visitor to the current list
   $("#visitor_list").append(`<li class="list-group-item col-xs-6 visitor_entry" id="${id}">${first_name} ${last_name}</li>`)
 }
 
 const remove_visitor = (visitor_id) => {
   // Visitors only removed on activation
-  // However, modularized to
   $(`.visitor_entry#${visitor_id}`).remove()
 }
 
@@ -61,6 +61,47 @@ const emphasize_header = () => {
   $("#current_patient").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200);
 }
 
+
+// All things websocket
+var listen_ws_url = "ws://" + window.location.host + "/ws/pingdoktor/visitor/";
+
+const initialize_socket = () => {
+  // Initializes the websocket handler for the visitor view
+  let socket = new WebSocket(listen_ws_url)
+  socket.onopen = () => {console.log("OPENED")}
+  if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen()
+    }
+
+  socket.onmessage = (e) => {
+    let data = JSON.parse(e.data)
+    let task = data["task"]
+    // Update the visitor (Doctor calling a new one to enger)
+    console.log(data)
+    // Vistor data already exists, only need ID
+    if (task == "update"){
+      activate_visitor(data["id"])
+    }
+    // Re-emphasize visitor (Doctor calling the same visitor) (unimplemented)
+    else if (task == "trigger"){
+      emphasize_header()
+    }
+    else {console.log(`Ignored message with task ${data["task"]}`)}
+  }
+  socket.onclose = (e) => {
+      console.error("Socket closed unexpectedly");
+  }
+  return socket
+}
+
+const socket_signal = (socket, visitor_id) => {
+  socket.send(JSON.stringify({
+    "type": "doctor",
+    "message": visitor_id
+  }))
+}
+
+var socket = initialize_socket()
 
 $(document).ready(function(){
   // Registration form bindings
@@ -100,17 +141,13 @@ $(document).ready(function(){
               console.log([visitor_data])
               // Append the visitor to the current waitlist
               add_visitor(visitor_data)
+              // Signal the doctor menu through websocket that something new is here
+              // Alternatives. Send the whole thing instead of just an ID. Tradeoffs.
+              socket_signal(visitor_data["id"])
               // Clear the form for the next user
               required_fields.forEach(function(x){x.val("")})
             }
     })
     return false
   })
-
-  // Websocket listener for doctor call updates
-  var socket = new WebSocket(listen_ws_url)
-  socket.onopen = () => {console.log("OPENED")}
-  if (socket.readyState == WebSocket.OPEN) {
-      socket.onopen();
-    }
 })
