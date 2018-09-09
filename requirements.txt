@@ -1,2 +1,3 @@
 channels
 service_identity
+channels_redis
