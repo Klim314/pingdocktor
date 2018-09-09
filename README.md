@@ -3,7 +3,9 @@ Simple interface for a doctor's waiting room
 
 # Build instructions
 cd into pingdocktor directory
-> docker-compose up
+```
+docker-compose up
+```
 
 # Usage instructions
 
