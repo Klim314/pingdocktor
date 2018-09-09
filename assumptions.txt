@@ -1,0 +1,33 @@
+Attached here are current assumptions that have been taken to simplify the homework, along with approaches
+to handle them in the case of violations.
+
+All names are unique
+	Violations: Multiple users with same name
+	Solution: Displaying Visitor ID with name would help prevent this particular issue. 
+
+Single doctor:
+	Violations: Multiple Doctors
+	Solution: Joint visitor -> doctor channel, response includes doctor-id to return patient to
+
+Local service with stable, low-latency network
+	Violations: High latency, occasional outages
+	Solutions:
+		Automated reconnection
+		Explicit loading for the various panel commands
+
+Visitors are stateless (Each visitor will only see the doctor once)
+	Violations: Medical history
+	Solutions:
+		Restructuring of models to allow for tracked visits
+		Force Usage of Visitor ID if any present
+		Time-series display of patient medical history
+
+Patient descriptions are immutable 
+	Violations: Descriptions can be editted to clarify conditioon
+	Solution: Implement feature allowing Editing and update of the patient information.
+
+Doctor assumed not to make mistakes in see-next
+	Violations: Accidential clicks are to be expected
+	Solutions:
+		Undo previous send
+		Timeline of n-most-recently-seen patients and undo functionality for each.
