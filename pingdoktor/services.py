@@ -1,5 +1,6 @@
 from datetime import datetime
 from .models import Visitor
+from django.core.exceptions import ValidationError
 
 
 def add_visitor(first_name,
@@ -13,6 +14,9 @@ def add_visitor(first_name,
     @returns
         Visitor Model object for the added visitor
     """
+    # Validation of all parameters
+    if any(not i for i in (first_name, last_name, description)):
+        raise ValidationError("Empty form field found", "invalid_input")
     # proper capitalization of names. For consistency, we'll keep them all Upper + lower
     first_name = first_name[0].upper() + first_name[1:].lower()
     last_name = last_name[0].upper() + last_name[1:].lower()
