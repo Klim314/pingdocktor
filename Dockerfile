@@ -7,3 +7,4 @@ ADD . /code
 RUN python manage.py migrate
 RUN rm docktorapp/settings.py
 RUN mv docktorapp/settings_deploy.py docktorapp/settings.py
+
