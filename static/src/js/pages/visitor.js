@@ -24,6 +24,7 @@ $.ajaxSetup({
      } 
 });
 
+
 const add_visitor = (visitor_data) => {
   // Appends a visitor to the current visitor list
   // visitor data must contain id, first_name and last_name variables
@@ -35,10 +36,12 @@ const add_visitor = (visitor_data) => {
   $("#visitor_list").append(`<li class="list-group-item col-xs-6 visitor_entry" id="${id}">${first_name} ${last_name}</li>`)
 }
 
+
 const remove_visitor = (visitor_id) => {
   // Visitors only removed on activation
   $(`.visitor_entry#${visitor_id}`).remove()
 }
+
 
 const activate_visitor = (visitor_id) => {
   // Activates a visitor, removing it from the waitlist and moving it to the upper menu
@@ -55,6 +58,7 @@ const activate_visitor = (visitor_id) => {
   $(`.visitor_entry#${visitor_id}`)
   remove_visitor(visitor_id)
 } 
+
 
 const emphasize_header = () => {
   // Flickers the header and plays a sound to notify patients that it's their turn
@@ -94,14 +98,9 @@ const initialize_socket = () => {
   return socket
 }
 
-const socket_signal = (socket, visitor_id) => {
-  socket.send(JSON.stringify({
-    "type": "doctor",
-    "message": visitor_id
-  }))
-}
 
 var socket = initialize_socket()
+
 
 $(document).ready(function(){
   // Registration form bindings
@@ -141,9 +140,7 @@ $(document).ready(function(){
               console.log([visitor_data])
               // Append the visitor to the current waitlist
               add_visitor(visitor_data)
-              // Signal the doctor menu through websocket that something new is here
-              // Alternatives. Send the whole thing instead of just an ID. Tradeoffs.
-              socket_signal(visitor_data["id"])
+              // Docter alert handled in view
               // Clear the form for the next user
               required_fields.forEach(function(x){x.val("")})
             }

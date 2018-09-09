@@ -22,7 +22,7 @@
 	height: 32em;
 	max-height: 32em;
 	width:100%;
-	overflow: scroll;
+	overflow: auto;
 	overflow-x: hidden;
     /*columns:2;*/
 }
@@ -40,5 +40,6 @@ li{
 }
 
 /*li:nth-child(even) {
-    /*background-color: #D3D3D3;*/
-  }*/
+    background-color: #D3D3D3;
+  }
+ */

@@ -35,7 +35,7 @@ const update_focus = (id, first_name, last_name, datetime, description) => {
     // @args
     //   id (string): Patient ID
 
-    $id = $("#focus-patient_id")
+    $id = $("#focus-patient-id")
     $first_name = $("#focus-first-name")
     $last_name = $("#focus-last-name")
     $datetime = $("#focus-datetime")
@@ -109,20 +109,39 @@ const demo = () => {
     }
 }
 
-const retrieve_visitor_details = (visitor_id) => {
+const get_and_insert_visitor = (visitor_id) => {
+    // Variable to store the visitor_details in on success
     var visitor_details
+    let data_string = "id=" + visitor_id
+    // Ajax is async, deal with it in the callback
     $.ajax({type:"POST",
             url: doctor_url,
-            data: data,
+            data: data_string,
             success: function(data){
               data = JSON.parse(data)
               let visitor_data = data["visitor_data"]
-              console.log([visitor_data])
-              visitor_details = visitor_data
-            }
+              add_panel(visitor_data["id"],
+                        visitor_data["first_name"],
+                        visitor_data["last_name"],
+                        visitor_data["datetime_string"],
+                        visitor_data["description"])
+              $("#visitor-panel-list").sortable();
+            },
+            error: function(e){console.error("Unable to acquire information for visitor " + visitor_id)}
     })
-    return visitor_details
 }
+
+const acknowledge_visitor = (visitor_id) => {
+    // Acknowleges the visitor server side, marking them as seen
+    let data_string = "id=" + visitor_id
+    $.ajax({type:"POST",
+            url: acknowledge_patient_url,
+            data: data_string,
+            success: function(data){console.log(`Visitor ${visitor_id} has been acknowledged`)},
+            error: function(e){console.error("Unable to acknowledge visitor " + visitor_id)}
+    })
+}
+
 
 // All things websocket
 
@@ -137,14 +156,14 @@ const initialize_socket = () => {
     }
 
     socket.onmessage = (e) => {
-    let data = JSON.parse(e.data)
-    let type = data["type"]
-    // Update the visitor (Doctor calling a new one to enger)
-    // Vistor data already exists, only need ID
-    if (type == "doctor"){
-      activate_visitor(data["visitor_id"])
-    }
-    else {console.log(`Ignored message with type ${data["type"]}`)}
+        let data = JSON.parse(e.data)
+        let type = data["type"]
+        // Update the visitor (Doctor calling a new one to enger)
+        // Vistor data already exists, only need ID
+        if (type == "doctor"){
+            get_and_insert_visitor(data["id"])
+        }
+        else {console.log(`Ignored message with type ${data["type"]}`)}
     }
     socket.onclose = (e) => {
       console.error("Socket closed unexpectedly");
@@ -168,12 +187,14 @@ var socket = initialize_socket()
 
 // Document initialization
 $(document).ready(function(){
+    $("#visitor-panel-list").sortable();
+    $("#visitor-panel-list").disableSelection();
     $("#visitor-panel-list").on("click", ".panel-button", function(){
         let $panel = get_panel($(this))
         let visitor_id = $panel.attr("id")
         socket_signal(socket, visitor_id)
+        acknowledge_visitor(visitor_id)
         activate_panel($panel)
-
 
     })
 })
