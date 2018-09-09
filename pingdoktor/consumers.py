@@ -30,6 +30,7 @@ class DoctorConsumer(WebsocketConsumer):
     def doctor(self, event):
         """Handler for doctor typed events passed throught the channel"""
         logging.debug(f"Recieved event {event}")
+        # Pass the data down to the doctor client websockets
         self.send(text_data=json.dumps(event))
 
 

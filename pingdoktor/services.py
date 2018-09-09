@@ -29,6 +29,8 @@ def add_visitor(first_name,
 
 def acknowledge_visitor(visitor):
     """Updates the visitor object to show that the visitor has been seen by the doctor
+    @args:
+        visitor (Visitor): Object containing the visitor to be acknowledged
     """
     visitor.acknowledged = True
     visitor.acknowledged_time = datetime.now()
@@ -37,5 +39,7 @@ def acknowledge_visitor(visitor):
 
 def get_current_visitors():
     """Returns all visitors that have been registered but not seen
+    @returns:
+        Iterable of visitor objects
     """
     return Visitor.objects.filter(acknowledged=False).order_by("arrival_time")
