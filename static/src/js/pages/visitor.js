@@ -63,6 +63,8 @@ const activate_visitor = (visitor_id) => {
 const emphasize_header = () => {
   // Flickers the header and plays a sound to notify patients that it's their turn
   $("#current_patient").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200);
+  let audio = new Audio(audio_path)
+  audio.play()
 }
 
 

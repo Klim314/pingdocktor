@@ -60,6 +60,7 @@
 {% block scripts %}
 <script>
   var visitor_url = "{% url "visitor" %}";
+  var audio_path = "{% static "/audio/doorbell.ogg"%}"
 </script>
 <script src="{% static "src/js/pages/visitor.js" %}"></script>
 {% endblock %}
